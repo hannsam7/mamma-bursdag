@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Happy Birthday Mom ✨</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: #0a0a1a;
+    font-family: 'Quicksand', sans-serif;
+    overflow-x: hidden;
+    color: #fff;
+    cursor: default;
+  }
+
+  /* ─── Stars Canvas ─── */
+  #starCanvas {
+    position: fixed; inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ─── Shooting Stars ─── */
+  .shooting-star {
+    position: fixed;
+    width: 120px; height: 2px;
+    background: linear-gradient(to right, rgba(255,255,255,0), #fff, rgba(255,220,100,0.8));
+    border-radius: 50%;
+    opacity: 0;
+    z-index: 1;
+    animation: shoot 3s linear infinite;
+  }
+  .shooting-star:nth-child(1) { top: 10%; left: -15%; animation-delay: 0s; }
+  .shooting-star:nth-child(2) { top: 25%; left: -15%; animation-delay: 2.2s; }
+  .shooting-star:nth-child(3) { top: 5%;  left: -15%; animation-delay: 4.5s; }
+
+  @keyframes shoot {
+    0%   { transform: translateX(0) translateY(0) rotate(25deg); opacity: 0; }
+    5%   { opacity: 1; }
+    70%  { opacity: 1; }
+    100% { transform: translateX(110vw) translateY(40vh) rotate(25deg); opacity: 0; }
+  }
+
+  /* ─── Main Layout ─── */
+  .page {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  /* ─── Envelope Open Animation ─── */
+  .envelope-wrap {
+    perspective: 800px;
+    width: 340px; max-width: 90vw;
+    margin-bottom: 10px;
+  }
+  .envelope {
+    width: 100%; height: 220px;
+    background: linear-gradient(145deg, #1e1b3a, #2d2460);
+    border-radius: 12px 12px 16px 16px;
+    position: relative;
+    border: 1px solid rgba(255,220,100,0.15);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+  .envelope-flap {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 110px;
+    background: linear-gradient(170deg, #252045, #1e1b3a);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    border-radius: 12px 12px 0 0;
+    transform-origin: top center;
+    transform: rotateX(0deg);
+    transition: transform 0.8s cubic-bezier(.4,0,.2,1);
+    z-index: 3;
+  }
+  .envelope-wrap.open .envelope-flap {
+    transform: rotateX(-180deg);
+  }
+  .envelope-label {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 6px;
+    z-index: 2;
+  }
+  .envelope-label span.tap {
+    font-size: 13px; color: rgba(255,220,100,0.7);
+    letter-spacing: 2px; text-transform: uppercase;
+    animation: pulse-tap 2s ease-in-out infinite;
+  }
+  @keyframes pulse-tap {
+    0%,100% { opacity: 0.5; }
+    50%     { opacity: 1; }
+  }
+  .envelope-label .heart-icon { font-size: 28px; }
+
+  /* ─── Card slides out ─── */
+  .card-wrap {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 1.2s cubic-bezier(.4,0,.2,1), opacity 0.8s ease 0.3s;
+    width: 340px; max-width: 90vw;
+  }
+  .envelope-wrap.open ~ .card-wrap {
+    max-height: 1200px;
+    opacity: 1;
+  }
+
+  /* ─── Card ─── */
+  .card {
+    background: linear-gradient(160deg, #161030 0%, #1a1540 50%, #120f2a 100%);
+    border: 1px solid rgba(255,220,100,0.12);
+    border-radius: 18px;
+    padding: 38px 30px 34px;
+    text-align: center;
+    box-shadow: 0 12px 60px rgba(0,0,0,0.6);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Subtle inner glow */
+  .card::before {
+    content: '';
+    position: absolute; inset: 0; border-radius: 18px;
+    background: radial-gradient(ellipse at 50% 0%, rgba(180,140,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ─── Dog SVG illustrations ─── */
+  .dogs-row {
+    display: flex; justify-content: center; align-items: flex-end; gap: 18px;
+    margin-bottom: 22px;
+  }
+  .dog-svg { width: 70px; height: 70px; }
+  .dog-svg.big { width: 88px; height: 88px; }
+
+  /* ─── Typography ─── */
+  .happy-bday {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px; font-weight: 700;
+    background: linear-gradient(135deg, #ffe066, #ffb347, #ff8fa3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .mom-name {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 20px;
+  }
+
+  .divider {
+    width: 60px; height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255,220,100,0.5), transparent);
+    margin: 0 auto 22px;
+  }
+
+  .message {
+    font-size: 15px; line-height: 1.8;
+    color: rgba(255,255,255,0.78);
+    font-weight: 300;
+  }
+  .message .highlight {
+    color: #ffe066;
+    font-weight: 500;
+    font-style: italic;
+  }
+
+  .star-divider { margin: 18px 0; font-size: 18px; color: rgba(255,220,100,0.6); letter-spacing: 8px; }
+
+  .sign-off {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 19px;
+    color: #ffb347;
+    margin-top: 22px;
+  }
+
+  /* ─── Floating mini-stars inside card ─── */
+  .mini-star {
+    position: absolute;
+    width: 4px; height: 4px;
+    background: #ffe066;
+    border-radius: 50%;
+    opacity: 0;
+    animation: twinkleInner 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .mini-star:nth-child(1) { top:12%; left:8%;  animation-delay:0s; }
+  .mini-star:nth-child(2) { top:35%; left:90%; animation-delay:1s; width:3px; height:3px; }
+  .mini-star:nth-child(3) { top:70%; left:12%; animation-delay:1.8s; width:5px; height:5px; }
+  .mini-star:nth-child(4) { top:80%; right:15%; animation-delay:0.6s; width:3px; height:3px; }
+  .mini-star:nth-child(5) { top:55%; left:5%;  animation-delay:2.4s; }
+  @keyframes twinkleInner {
+    0%,100% { opacity:0; transform:scale(0.5); }
+    50%     { opacity:0.9; transform:scale(1.2); }
+  }
+
+  /* ─── Button to replay ─── */
+  .replay-btn {
+    margin-top: 28px;
+    background: none;
+    border: 1px solid rgba(255,220,100,0.35);
+    color: rgba(255,220,100,0.8);
+    font-family: 'Quicksand', sans-serif;
+    font-size: 13px; letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 9px 22px; border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    opacity: 0;
+    transition: opacity 1s ease 1.8s, background 0.3s, color 0.3s, border-color 0.3s;
+  }
+  .envelope-wrap.open ~ .card-wrap ~ .replay-btn { opacity: 1; }
+  .replay-btn:hover {
+    background: rgba(255,220,100,0.1);
+    border-color: rgba(255,220,100,0.6);
+    color: #ffe066;
+  }
+
+  /* ─── Photo Gallery inside card ─── */
+  .photo-gallery {
+    display: none;
+    margin: 20px 0;
+  }
+  .photo-gallery.has-photos { display: block; }
+  .gallery-label {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(255,220,100,0.5); margin-bottom: 10px;
+  }
+  .gallery-carousel {
+    display: flex; gap: 10px; justify-content: center;
+    flex-wrap: wrap;
+  }
+  .gallery-carousel img {
+    width: 80px; height: 80px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 2px solid rgba(255,220,100,0.2);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+  .gallery-carousel img:hover {
+    transform: scale(1.1);
+    border-color: #ffe066;
+    box-shadow: 0 4px 20px rgba(255,220,100,0.3);
+  }
+
+  /* ─── Lightbox ─── */
+  .lightbox {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 200;
+    align-items: center; justify-content: center;
+  }
+  .lightbox.active { display: flex; }
+  .lightbox img {
+    max-width: 90vw; max-height: 85vh;
+    border-radius: 14px;
+    box-shadow: 0 0 40px rgba(255,220,100,0.15);
+  }
+  .lightbox .close-lightbox {
+    position: absolute; top: 20px; right: 28px;
+    font-size: 28px; color: rgba(255,255,255,0.7);
+    cursor: pointer; transition: color 0.2s;
+  }
+  .lightbox .close-lightbox:hover { color: #ffe066; }
+
+  /* ─── Confetti burst on open ─── */
+  .confetti-piece {
+    position: fixed;
+    width: 8px; height: 8px;
+    border-radius: 2px;
+    opacity: 0;
+    z-index: 5;
+    pointer-events: none;
+  }
+  .confetti-piece.active {
+    animation: confettiFall 2.5s cubic-bezier(.2,.8,.3,1) forwards;
+  }
+  @keyframes confettiFall {
+    0%   { opacity: 1; transform: translateY(0) rotate(0deg); }
+    100% { opacity: 0; transform: translateY(60vh) rotate(720deg); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Shooting stars -->
+<div class="shooting-star"></div>
+<div class="shooting-star"></div>
+<div class="shooting-star"></div>
+
+<!-- Star field -->
+<canvas id="starCanvas"></canvas>
+
+<!-- Main content -->
+<div class="page">
+
+  <!-- Envelope -->
+  <div class="envelope-wrap" id="envelope" onclick="openCard()">
+    <div class="envelope">
+      <div class="envelope-flap"></div>
+      <div class="envelope-label">
+        <span class="heart-icon">💛</span>
+        <span class="tap">Kliknij, aby otworzyć</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card -->
+  <div class="card-wrap">
+    <div class="card">
+      <!-- mini stars -->
+      <div class="mini-star"></div>
+      <div class="mini-star"></div>
+      <div class="mini-star"></div>
+      <div class="mini-star"></div>
+      <div class="mini-star"></div>
+
+      <!-- Dogs -->
+      <div class="dogs-row">
+        <!-- Dog 1 — sitting golden retriever -->
+        <svg class="dog-svg" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="40" cy="58" rx="18" ry="12" fill="#c8854a"/>
+          <circle cx="40" cy="34" r="15" fill="#d9a05a"/>
+          <ellipse cx="27" cy="30" rx="7" ry="12" fill="#b06a2e" transform="rotate(-12 27 30)"/>
+          <ellipse cx="53" cy="30" rx="7" ry="12" fill="#b06a2e" transform="rotate(12 53 30)"/>
+          <circle cx="34" cy="33" r="2.5" fill="#2b1a0e"/>
+          <circle cx="46" cy="33" r="2.5" fill="#2b1a0e"/>
+          <circle cx="34.8" cy="32.3" r="0.9" fill="#fff"/>
+          <circle cx="46.8" cy="32.3" r="0.9" fill="#fff"/>
+          <ellipse cx="40" cy="37" rx="2.8" ry="2" fill="#3d2410"/>
+          <ellipse cx="40" cy="40" rx="2" ry="2.5" fill="#e88a8a"/>
+          <path d="M58 52 Q68 40 64 34" stroke="#d9a05a" stroke-width="4" fill="none" stroke-linecap="round"/>
+        </svg>
+
+        <!-- Dog 2 — bigger, poodle-ish -->
+        <svg class="dog-svg big" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="45" cy="62" rx="22" ry="14" fill="#fff0e0"/>
+          <circle cx="45" cy="55" r="10" fill="#fff8f0"/>
+          <circle cx="45" cy="32" r="18" fill="#fff0e0"/>
+          <ellipse cx="28" cy="34" rx="9" ry="14" fill="#e8d5c0" transform="rotate(-8 28 34)"/>
+          <ellipse cx="62" cy="34" rx="9" ry="14" fill="#e8d5c0" transform="rotate(8 62 34)"/>
+          <circle cx="38" cy="31" r="3" fill="#2b1a0e"/>
+          <circle cx="52" cy="31" r="3" fill="#2b1a0e"/>
+          <circle cx="39" cy="30" r="1.1" fill="#fff"/>
+          <circle cx="53" cy="30" r="1.1" fill="#fff"/>
+          <ellipse cx="45" cy="36" rx="3" ry="2.2" fill="#4a2e1a"/>
+          <path d="M43 38 Q45 41 47 38" stroke="#4a2e1a" stroke-width="1.2" fill="none"/>
+          <path d="M35 27 Q38 25 41 27" stroke="#c8b49a" stroke-width="1.2" fill="none"/>
+          <path d="M49 27 Q52 25 55 27" stroke="#c8b49a" stroke-width="1.2" fill="none"/>
+          <polygon points="45,18 46.2,21.2 49.5,21.2 47,23.2 47.8,26.5 45,24.5 42.2,26.5 43,23.2 40.5,21.2 43.8,21.2" fill="#ffe066"/>
+        </svg>
+
+        <!-- Dog 3 — small chihuahua -->
+        <svg class="dog-svg" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="40" cy="60" rx="14" ry="10" fill="#a0522d"/>
+          <circle cx="40" cy="36" r="13" fill="#c27a3e"/>
+          <polygon points="25,28 20,10 32,25" fill="#8b4513"/>
+          <polygon points="55,28 60,10 48,25" fill="#8b4513"/>
+          <circle cx="34" cy="35" r="3.5" fill="#fff"/>
+          <circle cx="46" cy="35" r="3.5" fill="#fff"/>
+          <circle cx="35" cy="35.5" r="2" fill="#1a1a1a"/>
+          <circle cx="47" cy="35.5" r="2" fill="#1a1a1a"/>
+          <circle cx="35.5" cy="34.8" r="0.8" fill="#fff"/>
+          <circle cx="47.5" cy="34.8" r="0.8" fill="#fff"/>
+          <ellipse cx="40" cy="39" rx="2" ry="1.5" fill="#2b1a0e"/>
+          <ellipse cx="40" cy="41.5" rx="1.2" ry="1.6" fill="#e88a8a"/>
+          <rect x="30" y="47" width="20" height="3.5" rx="1.8" fill="#ffe066"/>
+          <polygon points="40,44 41,46.5 43.5,46.5 41.5,48 42.2,50.5 40,49 37.8,50.5 38.5,48 36.5,46.5 39,46.5" fill="#fff" opacity="0.9"/>
+        </svg>
+      </div>
+
+      <div class="happy-bday">Wszystkiego najlepszego z okazji urodzin!</div>
+      <div class="mom-name">Mama ✨</div>
+      <div class="divider"></div>
+
+      <p class="message">
+        Twój wyjątkowy dzień.<br><br>
+        To Twój wyjątkowy dzień,<br>
+        Dziękuję ci za wszystko.<br>
+        My cie kochamy bardziej, niż mogą wyrazić słowa,<br>
+        Jesteś najlepszą mamą… hip, hip, hurra!<br><br>
+        Nie ma na tym świecie nikogo,<br>
+        kto kocha mnie tak jak ty,<br>
+        a słowa nigdy nie wystarczą,<br>
+        by powiedzieć, <span class="highlight">jak duzo dla mnie znaczysz.</span><br><br>
+        Jesteś moim ciepłem, moim domem,<br>
+        moją role model.<br><br>
+        <span class="highlight">Kocham Cię bez końca✨</span>
+      </p>
+
+      <!-- Photo gallery — only shows if photos array has items -->
+      <div class="photo-gallery" id="photoGallery">
+        <div class="gallery-label">✨ Nasze wspomnienia ✨</div>
+        <div class="gallery-carousel" id="galleryCarousel"></div>
+      </div>
+
+      <div class="star-divider">★ ★ ★</div>
+
+      <div class="sign-off">Z całego serca,<br>Hania 🐾</div>
+    </div>
+  </div>
+
+  <!-- Replay -->
+  <button class="replay-btn" onclick="replayCard()">↺ Potórz</button>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="close-lightbox">✕</span>
+  <img id="lightboxImg" src="" alt="" />
+</div>
+
+<!-- Confetti container -->
+<div id="confettiContainer"></div>
+
+<script>
+
+// ═══════════════════════════════════════════════
+//  📸  ADD YOUR PHOTOS HERE
+//  Paste each image URL as a string inside the array.
+//  The gallery only appears if there is at least one.
+//
+//  Example:
+//    const photos = [
+//      "https://example.com/photo1.jpg",
+//      "https://example.com/photo2.jpg"
+//    ];
+// ═══════════════════════════════════════════════
+const photos = ["./gjovik.jpg","./nice.jpg","./poland.jpg"];
+
+// ─── Render Gallery from photos array ───
+function renderGallery() {
+  const gallery  = document.getElementById('photoGallery');
+  const carousel = document.getElementById('galleryCarousel');
+  carousel.innerHTML = '';
+  if (photos.length) {
+    gallery.classList.add('has-photos');
+    photos.forEach((src, i) => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = 'Memory ' + (i + 1);
+      img.onclick = () => openLightbox(src);
+      carousel.appendChild(img);
+    });
+  }
+}
+renderGallery();
+
+// ─── Lightbox ───
+function openLightbox(src) {
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightbox').classList.add('active');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+}
+
+// ─── Star Canvas ───
+const canvas = document.getElementById('starCanvas');
+const ctx = canvas.getContext('2d');
+let stars = [];
+
+function resizeCanvas() {
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function createStars() {
+  stars = [];
+  const count = Math.floor((canvas.width * canvas.height) / 5000);
+  for (let i = 0; i < count; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 2 + 0.3,
+      alpha: Math.random(),
+      speed: Math.random() * 0.02 + 0.005,
+      phase: Math.random() * Math.PI * 2
+    });
+  }
+}
+createStars();
+window.addEventListener('resize', createStars);
+
+let time = 0;
+function animateStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  time += 0.016;
+  stars.forEach(s => {
+    const twinkle = 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(time * 2 + s.phase));
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    const hue = Math.random() < 0.15 ? 'rgba(255,220,100,' : 'rgba(255,255,255,';
+    ctx.fillStyle = hue + (twinkle * 0.85) + ')';
+    ctx.fill();
+  });
+  requestAnimationFrame(animateStars);
+}
+animateStars();
+
+// ─── Open Card ───
+let opened = false;
+function openCard() {
+  if (opened) return;
+  opened = true;
+  document.getElementById('envelope').classList.add('open');
+  launchConfetti();
+}
+
+// ─── Confetti ───
+const colors = ['#ffe066','#ffb347','#ff8fa3','#a78bfa','#60a5fa','#34d399','#fff'];
+function launchConfetti() {
+  const container = document.getElementById('confettiContainer');
+  container.innerHTML = '';
+  for (let i = 0; i < 50; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = (40 + Math.random()*20) + 'vw';
+    piece.style.top  = (10 + Math.random()*15) + 'vh';
+    piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+    piece.style.width  = (4 + Math.random()*8) + 'px';
+    piece.style.height = (4 + Math.random()*8) + 'px';
+    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    piece.style.animationDelay = (Math.random()*0.4) + 's';
+    piece.style.animationDuration = (2 + Math.random()*1.5) + 's';
+    container.appendChild(piece);
+    void piece.offsetWidth;
+    piece.classList.add('active');
+  }
+}
+
+// ─── Replay ───
+function replayCard() {
+  opened = false;
+  document.getElementById('envelope').classList.remove('open');
+  document.getElementById('confettiContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>
